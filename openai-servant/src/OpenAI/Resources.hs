@@ -26,6 +26,7 @@ module OpenAI.Resources
     ChatFunctionCall (..),
     ChatFunctionCallStrategy (..),
     ChatMessage (..),
+    ChatResponseFormat (..),
     ChatCompletionRequest (..),
     ChatChoice (..),
     ChatResponse (..),
@@ -155,7 +156,7 @@ newtype ModelId = ModelId {unModelId :: T.Text}
 $(deriveJSON (jsonOpts 1) ''Model)
 
 ------------------------
------- Completions API
+------ Completions API (legacy)
 ------------------------
 
 data CompletionCreate = CompletionCreate
@@ -296,6 +297,11 @@ instance FromJSON ChatFunctionCallStrategy where
     functionName <- o A..: "name"
     pure $ CFCS_name functionName
 
+data ChatResponseFormat = ChatResponseFormat 
+  { chrfType :: T.Text
+  }
+  deriving (Show, Eq)
+
 data ChatCompletionRequest = ChatCompletionRequest
   { chcrModel :: ModelId,
     chcrMessages :: [ChatMessage],
@@ -304,6 +310,8 @@ data ChatCompletionRequest = ChatCompletionRequest
     chcrTemperature :: Maybe Double,
     chcrTopP :: Maybe Double,
     chcrN :: Maybe Int,
+    chcrResponseFormat :: Maybe ChatResponseFormat,
+    chcrSeed :: Maybe Int,
     chcrStream :: Maybe Bool,
     chcrStop :: Maybe (V.Vector T.Text),
     chcrMaxTokens :: Maybe Int,
@@ -324,6 +332,8 @@ defaultChatCompletionRequest model messages =
       chcrTemperature = Nothing,
       chcrTopP = Nothing,
       chcrN = Nothing,
+      chcrResponseFormat = Nothing,
+      chcrSeed = Nothing,
       chcrStream = Nothing,
       chcrStop = Nothing,
       chcrMaxTokens = Nothing,
@@ -349,6 +359,7 @@ data ChatResponse = ChatResponse
   }
 
 $(deriveJSON (jsonOpts 3) ''ChatFunction)
+$(deriveJSON (jsonOpts 4) ''ChatResponseFormat)
 $(deriveJSON (jsonOpts 4) ''ChatCompletionRequest)
 $(deriveJSON (jsonOpts 4) ''ChatChoice)
 $(deriveJSON (jsonOpts 3) ''ChatResponse)

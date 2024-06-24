@@ -34,9 +34,12 @@ request = ChatCompletionRequest
                          }
             ]
          , chcrFunctions = Nothing
+         , chcrFunctionCall = Nothing
          , chcrTemperature = Nothing
          , chcrTopP = Nothing
          , chcrN = Nothing
+         , chcrResponseFormat = Nothing
+         , chcrSeed = Nothing
          , chcrStream = Nothing
          , chcrStop = Nothing
          , chcrMaxTokens = Nothing

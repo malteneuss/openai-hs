@@ -32,6 +32,7 @@ module OpenAI.Client
     ChatFunctionCall (..),
     ChatFunctionCallStrategy (..),
     ChatMessage (..),
+    ChatResponseFormat (..),
     ChatCompletionRequest (..),
     ChatChoice (..),
     ChatResponse (..),
